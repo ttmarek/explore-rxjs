@@ -1,0 +1,20 @@
+{
+  "name": "explore-rxjs",
+  "version": "0.0.0",
+  "description": "just exploring rxjs",
+  "main": "index.js",
+  "scripts": {
+    "server": "http-server",
+    "start": "webpack index.js --output-filename index.bundle.js --watch",
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "rxjs": "^5.0.0-rc.5"
+  },
+  "devDependencies": {
+    "http-server": "^0.9.0",
+    "webpack": "^1.14.0"
+  }
+}
