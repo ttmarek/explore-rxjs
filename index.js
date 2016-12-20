@@ -87,22 +87,49 @@ const Rx = require('rxjs/Rx');
 // **************************************************
 
 // When subscribing to an observable
-const observable = Rx.Observable.create((observer) => {
-  observer.next(1);
-});
+/* const observable = Rx.Observable.create((observer) => {
+ *   observer.next(1);
+ * });*/
 // This
-observable.subscribe({
-  next: x => console.log('Observer got a next value: ' + x),
-  error: err => console.error('Observer got an error: ' + err),
-  complete: () => console.log('Observer got a complete notification'),
-});
+/* observable.subscribe({
+ *   next: x => console.log('Observer got a next value: ' + x),
+ *   error: err => console.error('Observer got an error: ' + err),
+ *   complete: () => console.log('Observer got a complete notification'),
+ * });*/
 // And this
-observable.subscribe(
-  x => console.log('Observer got a next value: ' + x),
-  err => console.error('Observer got an error: ' + err),
-  () => console.log('Observer got a complete notification')
-);
+/* observable.subscribe(
+ *   x => console.log('Observer got a next value: ' + x),
+ *   err => console.error('Observer got an error: ' + err),
+ *   () => console.log('Observer got a complete notification')
+ * );*/
 // are both valid:
 /* Internally in observable.subscribe, it will create an Observer object
  * using the first callback argument as the next handler. All three types
  * of callbacks may be provided as arguments:*/
+
+// Observables
+// Events
+// Async Requests
+// Animation
+
+const incrementBtn = document.getElementById('increment-btn');
+const decrementBtn = document.getElementById('decrement-btn');
+
+const incrementBtnClick = Rx
+  .Observable
+  .fromEvent(incrementBtn, 'click')
+  .map(() => state => Object.assign(state, { count: state.count + 1 }));
+
+const decrementBtnClick = Rx
+  .Observable
+  .fromEvent(decrementBtn, 'click')
+  .map(() => state => Object.assign(state, { count: state.count -1 }));
+
+const state = Rx.Observable.merge(
+  incrementBtnClick,
+  decrementBtnClick
+).scan((updatedState, reducer) => reducer(updatedState), { count: 0 });
+
+state.subscribe(state => {
+  document.querySelector('#count').innerHTML = state.count;
+});
